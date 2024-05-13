@@ -4,7 +4,9 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,30 +19,21 @@ import com.example.Otpservice.errorresponse.OtpErrorResponse;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-
 @Service
 public class OtpServiceImpl implements OtpService {
 
-	
-	
-	
-	
 	@Autowired
 	otprepository otprepository;
-	
-	
-	
+
 	@Autowired
 	PropertiesConfig propertiesConfig;
-	
-	
-	
+
 	@Override
 	public Smsresponse getOtpSms(Otpdto otpdto) {
-		
-		
+
 		Smsresponse resSmsresponse = new Smsresponse();
 		long startTime = System.currentTimeMillis();
+		
 		try {
 			String baseURL = propertiesConfig.getOtpBaseUrl();
 
@@ -79,6 +72,9 @@ public class OtpServiceImpl implements OtpService {
 			JsonNode jsonNode = objectMapper.readTree(json);
 			String code = jsonNode.get(0).get("code").asText();
 			String desc = jsonNode.get(0).get("desc").asText();
+		
+
+			
 			if (code.equalsIgnoreCase("6001")) {
 				resSmsresponse.setStatus("SUCCESS");
 			} else {
@@ -86,9 +82,14 @@ public class OtpServiceImpl implements OtpService {
 			}
 			resSmsresponse.setCode(code);
 			resSmsresponse.setDescription(desc);
-			//logger.info("otp service response packet: " + saswatStatus);
-			//saswatApiService.saveSaswatApiLogs(saswatDto, dest, saswatStatus, startTime);
-           otprepository.save(resSmsresponse);
+			resSmsresponse.setDest(dest);
+			resSmsresponse.setOtp(smsotp);
+			//LocalDate date = LocalDate.now();
+			LocalDateTime dateTime = LocalDateTime.now();
+			
+			resSmsresponse.setFormattedDate(dateTime);
+			
+			otprepository.save(resSmsresponse);
 			return resSmsresponse;
 
 		} catch (Exception e) {
@@ -96,8 +97,5 @@ public class OtpServiceImpl implements OtpService {
 		}
 		return null;
 	}
-		
-	}
 
-	
-
+}
