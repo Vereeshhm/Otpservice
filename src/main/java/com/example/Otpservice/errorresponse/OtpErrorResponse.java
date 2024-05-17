@@ -2,7 +2,6 @@ package com.example.Otpservice.errorresponse;
 
 import com.example.Otpservice.ServiceResponse.Smsresponse;
 
-
 public class OtpErrorResponse {
 
 	public static Smsresponse returnInternalServerErrorResponse(Exception e) {

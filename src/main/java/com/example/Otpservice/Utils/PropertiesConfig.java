@@ -8,7 +8,6 @@ import org.springframework.context.annotation.PropertySource;
 @PropertySource("file:src/main/resources/application.properties")
 public class PropertiesConfig {
 
-	
 	@Value("${username}")
 	private String username;
 
@@ -27,7 +26,6 @@ public class PropertiesConfig {
 	@Value("${templateid}")
 	private String templateid;
 
-	
 	@Value("${OTP.baseURL}")
 	private String OtpBaseUrl;
 

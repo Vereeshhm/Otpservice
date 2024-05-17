@@ -4,9 +4,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,8 +31,8 @@ public class OtpServiceImpl implements OtpService {
 	public Smsresponse getOtpSms(Otpdto otpdto) {
 
 		Smsresponse resSmsresponse = new Smsresponse();
-		long startTime = System.currentTimeMillis();
-		
+		// long startTime = System.currentTimeMillis();
+
 		try {
 			String baseURL = propertiesConfig.getOtpBaseUrl();
 
@@ -72,9 +71,7 @@ public class OtpServiceImpl implements OtpService {
 			JsonNode jsonNode = objectMapper.readTree(json);
 			String code = jsonNode.get(0).get("code").asText();
 			String desc = jsonNode.get(0).get("desc").asText();
-		
 
-			
 			if (code.equalsIgnoreCase("6001")) {
 				resSmsresponse.setStatus("SUCCESS");
 			} else {
@@ -84,11 +81,11 @@ public class OtpServiceImpl implements OtpService {
 			resSmsresponse.setDescription(desc);
 			resSmsresponse.setDest(dest);
 			resSmsresponse.setOtp(smsotp);
-			//LocalDate date = LocalDate.now();
+			// LocalDate date = LocalDate.now();
 			LocalDateTime dateTime = LocalDateTime.now();
-			
+
 			resSmsresponse.setFormattedDate(dateTime);
-			
+
 			otprepository.save(resSmsresponse);
 			return resSmsresponse;
 

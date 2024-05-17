@@ -1,12 +1,10 @@
 package com.example.Otpservice.Entity;
 
-
 import lombok.Data;
 
 @Data
 public class Otpdto {
 
-	
 	private String dest;
 	private int otp;
 
@@ -31,5 +29,4 @@ public class Otpdto {
 		return "Otpdto [dest=" + dest + ", otp=" + otp + "]";
 	}
 
-	
 }
